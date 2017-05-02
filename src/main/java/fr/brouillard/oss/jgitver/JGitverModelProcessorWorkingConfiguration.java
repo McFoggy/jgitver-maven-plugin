@@ -43,6 +43,15 @@ public class JGitverModelProcessorWorkingConfiguration {
     @XmlElement(name = "calculatedVersion")
     private String calculatedVersion;
 
+    @XmlElement(name = "sha1")
+    private String sha1;
+
+    @XmlElement(name = "scmTag")
+    private String scmTag;
+
+    @XmlElement(name = "branch")
+    private String branch;
+
     @XmlElement(name = "multiModuleProjectDirectory")
     private File multiModuleProjectDirectory;
 
@@ -63,6 +72,31 @@ public class JGitverModelProcessorWorkingConfiguration {
 
     public void setCalculatedVersion(String calculatedVersion) {
         this.calculatedVersion = calculatedVersion;
+    }
+
+
+    public String getSha1() {
+        return sha1;
+    }
+
+    public void setSha1(String sha1) {
+        this.sha1 = sha1;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+
+    public String getScmTag() {
+        return scmTag;
+    }
+
+    public void setScmTag(String scmTag) {
+        this.scmTag = scmTag;
     }
 
     public File getMultiModuleProjectDirectory() {

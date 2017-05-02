@@ -196,46 +196,6 @@ public final class JGitverUtils {
         return jGitverVersion;
     }
 
-    /**
-     * Attach modified POM files to the projects so install/deployed files contains new version.
-     *
-     * @param projects           projects.
-     * @param newProjectVersions newProjectVersions.
-     * @param mavenSession the current maven build session
-     * @param logger the logger to report to 
-     * @throws IOException if project model cannot be read correctly
-     * @throws XmlPullParserException if project model cannot be interpreted correctly
-     */
-    public static void attachModifiedPomFilesToTheProject(List<MavenProject> projects, Map<GAV, String>
-            newProjectVersions, MavenSession mavenSession, Logger logger) throws IOException, XmlPullParserException {
-        for (MavenProject project : projects) {
-            Model model = loadInitialModel(project.getFile());
-            GAV initalProjectGAV = GAV.from(model);     // SUPPRESS CHECKSTYLE AbbreviationAsWordInName
-
-            logger.debug("about to change file pom for: " + initalProjectGAV);
-
-            if (newProjectVersions.containsKey(initalProjectGAV)) {
-                model.setVersion(newProjectVersions.get(initalProjectGAV));
-            }
-
-            if (model.getParent() != null) {
-                GAV parentGAV = GAV.from(model.getParent());    // SUPPRESS CHECKSTYLE AbbreviationAsWordInName
-
-                if (newProjectVersions.keySet().contains(parentGAV)) {
-                    // parent has been modified
-                    model.getParent().setVersion(newProjectVersions.get(parentGAV));
-                }
-            }
-
-            File newPom = createPomDumpFile();
-            writeModelPom(model, newPom);
-            logger.debug("    new pom file created for " + initalProjectGAV + " under " + newPom);
-
-            setProjectPomFile(project, newPom, logger);
-            logger.debug("    pom file set");
-        }
-    }
-
     public static void failAsOldMechanism(Consumer<? super CharSequence> logger) throws MavenExecutionException {
         logger.accept("jgitver has changed!");
         logger.accept("");

@@ -140,6 +140,10 @@ public class JGitverModelProcessor extends DefaultModelProcessor {
                         workingConfiguration = new JGitverModelProcessorWorkingConfiguration(
                                 jGitverVersion.getCalculatedVersion(),
                                 rootDirectory);
+
+                        jGitverVersion.getGitVersionCalculator().meta(Metadatas.GIT_SHA1_FULL).ifPresent(workingConfiguration::setSha1);
+                        jGitverVersion.getGitVersionCalculator().meta(Metadatas.BRANCH_NAME).ifPresent(workingConfiguration::setBranch);
+                        jGitverVersion.getGitVersionCalculator().meta(Metadatas.SCM_TAG).ifPresent(workingConfiguration::setScmTag);
                     }
                 }
             }
